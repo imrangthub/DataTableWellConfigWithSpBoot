@@ -1,4 +1,20 @@
+var app = {
 
+	    getTableSelectRow:function(dtObj,colName){
+	    	var cellVal
+	    	$.each(dtObj.rows('.activetable').data(), function(key,value) {
+	    		cellVal = value[colName];
+	              
+	          });
+	    	return cellVal;
+		      },
+			      
+	 	getTableLength:function(dtObj){
+			
+			return dtObj.rows('.activetable').data().length;
+		},
+		
+}
 // for Flash showing 
 function showMsg(type, icon, title, msg){
     $.growl(false, {
@@ -40,6 +56,10 @@ function showInfoMsg(msg){
 
 
 $(document).ready(function(){
-//	alert("hleeo");
+	
+	 $('#serverSidePaginTable tbody').on( 'click', 'tr', function () {
+			$('#serverSidePaginTable tbody tr').removeClass("activetable");
+			 $(this).addClass("activetable");
+	 });
 });
 

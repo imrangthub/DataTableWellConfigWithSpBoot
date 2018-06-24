@@ -16,11 +16,8 @@
 		  <div class="jumbotron">
 		    <h1>Welcome to Library</h1> 
 		  </div>
-		  <p>This is a project where I working with jQuery DataTable and Handle ajax request.</p>  
-		  
-		   	<a href="/book/author/"><button type="button" class="btn btn-info float-right">Client  Side DataTable With Ajax</button></a>
 		   	<a href="/library/author/serverSide/"><button type="button" class="btn btn-info float-right">DataTable Server side Operation</button></a>
-			<a href="/library/author/serverSidePagination/"><button type="button" class="btn btn-info float-right">DataTable Server side Pagination</button></a>
+		   	<a href="/library/author/serversidepagin/"><button type="button" class="btn btn-info float-right">DataTable Well Config</button></a>
 		</div>
 		   
     

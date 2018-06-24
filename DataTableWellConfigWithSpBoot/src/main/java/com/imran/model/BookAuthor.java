@@ -6,7 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
+import javax.persistence.Transient;
+
 
 @Entity
 @Table(name = "book_author")
@@ -28,8 +29,17 @@ public class BookAuthor {
 	@Column(name="country")
 	private String country;
 	
+	@Column(name="total_records")
+	private Integer total_records;
 	
-	
+
+	public Integer getTotalRecords() {
+		return total_records;
+	}
+
+	public void setTotalRecords(Integer total_records) {
+		this.total_records = total_records;
+	}
 
 	public Long getId() {
 		return id;

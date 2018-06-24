@@ -11,3 +11,13 @@
 .error {
 	color: red;
 }
+
+.activetable{
+  background-color:#359eaf !important;
+  color:#fff; background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent) !important;
+}
+.activetable a{ color:#fff !important;}
+.activetable2{
+  background-color:#1e7e34 !important;
+  color:#fff;
+}

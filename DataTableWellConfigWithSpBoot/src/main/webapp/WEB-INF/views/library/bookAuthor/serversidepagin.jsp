@@ -16,49 +16,61 @@
 	  <div class="jumbotron">
 	    <h1>Welcome to Server side Pagination</h1> 
 	  </div>
-	  <p>This is a project where I working with jQuery DataTable and Handle ajax request.</p>  
-	   <!-- Button trigger modal -->
-		<div class="pull-right">
-		 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addEditAuthorModal">
-		  Add Author
-		 </button><br>
-		</div>
-		
-		  <div class="col-sm-8 col-md-offset-2">
-		   <div class="form-group row">
-		      <div class="col-sm-4">
-	           <select name="gender" id="genderFilter" class="form-control" >
-	              <option selected value="ALL">All</option>
-				  <option value="MALE">Male</option>
-				  <option value="FEMALE">Female</option>
-				  <option value="OTHER">Other</option>
-				</select>
-	          </div>
-	       </div>
-		</div>
-		
 	  
-	    <div class="col-md-8 col-md-offset-2 well">
-	    <table class="table" id="serverSidePaginationTable">
-		  <thead class="thead-default">
-		    <tr>
-		      <th>#</th>
-		      <th>Author Name</th>
-		      <th>Gender</th>
-		      <th>Country</th>
-		      <th>Action</th>
-		    </tr>
-		  </thead>
-        </table>
+	  <div class="row">
+	  	<div class="pull-right">
+		 <a type="button" class="btn btn-primary" onclick="serverSidePagin.addBookAuthor()">
+		  Add Author
+		 </a>
+		 <button type="button" class="btn btn-warning" onclick="serverSidePagin.editBookAuthor()">
+		  Edit Author
+		 </button>
+		 <button type="button" class="btn btn-danger" onclick="serverSidePagin.deleteBookAuthor()">
+		  Delete Author
+		 </button>
+		</div>
 	  </div>
 
+		
+            <div class="table-responsive">
+				<table id="serverSidePaginTable"
+					class="table table-striped table-bordered table_data_all"
+					style="width: 100%">
+				</table>
+			</div>
+
+	  
+	<!-- 	  <div class="col-md-8 col-md-offset-2 well">
+		    <table class="table" id="serverSidePaginTable">
+			  <thead class="thead-default">
+			    <tr>
+			      <th>#</th>
+			      <th>Author Name</th>
+			      <th>Gender</th>
+			      <th>Country</th>
+			      <th>Action</th>
+			    </tr>
+			  </thead>
+	        </table>
+		  </div> -->
+
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  
 	  
 
 <!-- Modal -->
-<div class="modal fade" id="addEditAuthorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addEditAuthorServerSidePageinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-   <form id="create-author-form">
+   <form id="create-author-server-side-pagin-form">
      <input type="hidden" name="id"  id="id">
     <div class="modal-content">
       <div class="modal-header">
@@ -89,7 +101,7 @@
 	       </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" onclick="serverSidePagin.celcelBtn()">Close</button>
         <button type="submit" id="form-submit-btn" class="btn btn-primary">Save Author</button>
       </div>
     </div>
@@ -101,7 +113,7 @@
 <script type="text/javascript" src="/resources/javascripts/vendor/jquery/jquery.dataTables.js"></script>
 <script type="text/javascript" src="/resources/javascripts/vendor/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/javascripts/vendor/bootstrap/bootstrap-growl.min.js"></script>
-<script type="text/javascript" src="/resources/javascripts/library/bookAuthorServersidePagination.js"></script>
+<script type="text/javascript" src="/resources/javascripts/library/bookAuthorServersidePagin.js"></script>
 <script type="text/javascript" src="/resources/javascripts/application.js"></script>
 
 

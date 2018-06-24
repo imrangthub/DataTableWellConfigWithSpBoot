@@ -14,9 +14,8 @@
      
 		 <div class="container">
 		  <div class="jumbotron">
-		    <h1>Welcome to Spring boot Project</h1> 
+		    <h1>Welcome to Spring boot DataTable Project</h1> 
 		  </div>
-		  <p>This is a project where I working with jQuery DataTable and Handle ajax request.</p>  
 		  
 		   	<a href="/library/"><button type="button" class="btn btn-info float-right">Go to Project</button></a><br>
 		</div>

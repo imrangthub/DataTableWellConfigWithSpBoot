@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,49 +22,63 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import com.google.gson.Gson;
 import com.imran.model.BookAuthor;
 import com.imran.service.BookAuthorServerSideService;
-
+import com.imran.pagination.DataTableRequest;
+import com.imran.pagination.DataTableResults;
+import com.imran.pagination.PaginationCriteria;
+import com.imran.statement.BookAuthorStatement;
+import com.imran.util.AppUtil;
 
 
 @Controller
-@RequestMapping("library/author/serverSide")
-public class BookAuthorServerSideController {
+@RequestMapping("library/author/serversidepagin")
+public class BookAuthorServerSidePaginController {
 	
+	/** The entity manager. */
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	@Autowired
 	private BookAuthorServerSideService bookAuthorServerSideService;
 	
-
 	
-	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> list(@RequestParam("gender") String gender) {
-		Map<String, Object> results = new HashMap<String, Object>();
-		List<BookAuthor> authorData = new ArrayList<BookAuthor>();
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	@ResponseBody
+	public String listPaginated(HttpServletRequest request, HttpServletResponse response, Model model) {
 		
-		authorData = bookAuthorServerSideService.list();
+	    DataTableRequest<BookAuthor> dataTableInRQ = new DataTableRequest<BookAuthor>(request);
+		PaginationCriteria pagination = dataTableInRQ.getPaginationRequest();
+		String paginatedQuery = AppUtil.buildPaginatedQuery(BookAuthorStatement.baseQuery(), pagination);
 		
-		if(!gender.equals("ALL")) {
-			authorData = bookAuthorServerSideService.listByGender(gender);
+		Query query = entityManager.createNativeQuery(paginatedQuery, BookAuthor.class);
+		
+		@SuppressWarnings("unchecked")
+		List<BookAuthor> comList = query.getResultList();
+		DataTableResults<BookAuthor> dataTableResult = new DataTableResults<BookAuthor>();
+		dataTableResult.setDraw(dataTableInRQ.getDraw());
+		dataTableResult.setListOfDataObjects(comList);
+		
+		if (!AppUtil.isObjectEmpty(comList)) {
+			dataTableResult.setRecordsTotal(comList.get(0).getTotalRecords().toString());
+					
+			if (dataTableInRQ.getPaginationRequest().isFilterByEmpty()) {
+				dataTableResult.setRecordsFiltered(comList.get(0).getTotalRecords().toString());
+						
+			} else {
+				dataTableResult.setRecordsFiltered(Integer.toString(comList.size()));
+			}
 		}
-
-		int TotalRecords = authorData.size();
-	    int TotalDisplayRecords = 2;
-	    
-		results.put("TotalRecords", TotalRecords);
-		results.put("TotalDisplayRecords", TotalDisplayRecords);
-		results.put("data", authorData);
-		results.put("isError", Boolean.FALSE);
-		results.put("message", "test data");
-		return results;
-	
-
+		
+		Gson json = new Gson();
+	    String companyJson = json.toJson(dataTableResult);
+		return companyJson;
 	}
 	
-
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView listAuthor() {
-		return new ModelAndView("library/bookAuthor/serverside");
+		return new ModelAndView("library/bookAuthor/serversidepagin");
 	}
 	
 	
@@ -85,19 +105,6 @@ public class BookAuthorServerSideController {
 		return result;
 	}
 	
-	
-	@RequestMapping(value="/edit/{id}",  method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> edit(@PathVariable("id") Long id){
-		Map<String, Object> result = new HashMap<String, Object>();
-		BookAuthor bookAuthor = bookAuthorServerSideService.authorById(id);
-		System.out.println(bookAuthor.getName());
-		  result.put("isError", Boolean.FALSE);
-		result.put("message","You Click On "+bookAuthor.getName());
-		result.put("obj",bookAuthor);
-		return result;
-		
-	}
-	
 	@RequestMapping(value="/delete/{id}",  method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> delete(@PathVariable("id") Long id){
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -115,8 +122,6 @@ public class BookAuthorServerSideController {
 		return result;
 		
 	}
-
-
 
 
 }
